@@ -15,3 +15,10 @@
 - **Countdown and User Notification** : The application displays the time between the date and time you set on the interface as a countdown. It shows the user how much time is left.
 
 - This application aims to automate the automatic message sending process at a given time. Users may need such a tool to deliver important messages or reminders at certain moments.
+
+## How to use 
+
+```bash
+pip install -r .\requirements.txt
+python app.py
+```
