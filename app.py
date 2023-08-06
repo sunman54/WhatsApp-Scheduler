@@ -7,15 +7,12 @@ import datetime
 import threading
 
 
-# ... (Önceki kodunuz)
-
 class WhatsAppSchedulerApp:
 
     def __init__(self, root):
         self.root = root
         self.root.title("WhatsApp Scheduler")
-        self.root.geometry("400x500")  # Arayüz boyutunu 400x500 piksel olarak ayarlar
-
+        self.root.geometry("400x500")  
         self.hour_label = tk.Label(root, text="Saat:")
         self.hour_label.pack()
 
@@ -38,8 +35,7 @@ class WhatsAppSchedulerApp:
         self.conversation_label.pack()
 
         self.conversation_var = tk.StringVar(root)
-        self.conversation_var.set("1")  # Varsayılan olarak 1. konuşmayı seçer
-
+        self.conversation_var.set("2") 
         self.conversation_radiobutton_1 = tk.Radiobutton(root, text="1. Sabitlenen Kişi", variable=self.conversation_var, value="1")
         self.conversation_radiobutton_1.pack()
 
@@ -72,17 +68,15 @@ class WhatsAppSchedulerApp:
             given_hour = int(self.hour_entry.get())
             given_minute = int(self.minute_entry.get())
             message = self.message_entry.get()
-            selected_conversation = int(self.conversation_var.get())  # Seçilen konuşma numarasını alır
+            selected_conversation = int(self.conversation_var.get()) 
 
-            self.start_button["state"] = "disabled"  # Disable the button during execution
-
+            self.start_button["state"] = "disabled"  
             schedule_thread = threading.Thread(target=self.send_message,
                                                args=(given_hour, given_minute, message, selected_conversation))
             schedule_thread.start()
         except ValueError:
             print("Geçerli bir saat, dakika ve mesaj girin.")
 
-    # ... (Diğer fonksiyonlar)
 
     def send_message(self, given_hour, given_minute, message, selected_conversation):
         conversation_positions = {
@@ -90,7 +84,6 @@ class WhatsAppSchedulerApp:
             2: (150, 270),
             3: (150, 340)
         }
-        whatsapp = pyautogui.Point(x=397, y=1054)
         whatsapp_input = pyautogui.Point(x=666, y=1023)
 
         while True:
@@ -100,8 +93,11 @@ class WhatsAppSchedulerApp:
             second = now.second
             if hour == given_hour and minute == given_minute:
                 print('Zaman geldi!')
-                pyautogui.click(whatsapp)
-                sleep(2)
+                pyautogui.press('win') 
+                sleep(1)
+                pyautogui.write('WhatsApp')  
+                pyautogui.press('enter')
+                sleep(3)
                 pyautogui.click(*conversation_positions[selected_conversation])
                 sleep(0.5)
                 pyautogui.click(whatsapp_input)
@@ -115,8 +111,8 @@ class WhatsAppSchedulerApp:
                 self.update_remaining_time(remaining_seconds)
                 print('Hala bekleniyor...')
                 print("Saat:", hour, '\tDakika:', minute, '\tSaniye:', second)
-                sleep(1)
-                pyautogui.click(1, 1)
+                #sleep(30)
+                #pyautogui.click(1, 1)
 
 
 if __name__ == "__main__":
